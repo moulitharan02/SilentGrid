@@ -1,0 +1,39 @@
+# ─── nt-traffic-filter · Python Dependencies ─────────────────────────────────
+
+# Kafka
+kafka-python-ng
+
+# Machine Learning
+scikit-learn
+numpy
+pandas
+joblib
+xgboost
+onnxruntime
+onnxmltools
+skl2onnx
+
+# Feature Engineering
+scipy
+
+# REST API
+fastapi
+uvicorn[standard]
+pydantic
+
+# Alerting & Integrations
+requests        # Slack webhook / Threat Intel APIs
+python-dotenv
+redis
+
+# Zeek log parsing
+python-dateutil
+
+# Utilities
+rich==13.7.1            # pretty console output
+networkx                # graph correlation
+
+# Phase 3 — Storage & Monitoring
+elasticsearch>=8.13,<9          # Elasticsearch client
+prometheus-client               # Prometheus metrics exposition
+prometheus-fastapi-instrumentator  # Auto-instrument FastAPI

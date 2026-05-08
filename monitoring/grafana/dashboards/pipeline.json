@@ -1,0 +1,175 @@
+{
+  "__inputs": [],
+  "__requires": [
+    {"type": "grafana", "id": "grafana", "name": "Grafana", "version": "10.4.0"},
+    {"type": "datasource", "id": "prometheus", "name": "Prometheus", "version": "1.0.0"},
+    {"type": "panel", "id": "timeseries", "name": "Time series", "version": ""},
+    {"type": "panel", "id": "stat", "name": "Stat", "version": ""},
+    {"type": "panel", "id": "gauge", "name": "Gauge", "version": ""},
+    {"type": "panel", "id": "piechart", "name": "Pie chart", "version": ""}
+  ],
+  "annotations": {"list": []},
+  "description": "VulnXploit Core — Pipeline Health Dashboard",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "id": 1,
+      "title": "Records / sec",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "rate(pipeline_records_processed_total[1m])",
+          "legendFormat": "records/sec"
+        }
+      ],
+      "options": {
+        "tooltip": {"mode": "single"},
+        "legend": {"displayMode": "list", "placement": "bottom"}
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"lineWidth": 2, "fillOpacity": 15}
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Alerts / min (by severity)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "rate(pipeline_alerts_fired_total[1m]) * 60",
+          "legendFormat": "{{severity}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {"lineWidth": 2, "fillOpacity": 10},
+          "color": {"mode": "palette-classic"}
+        },
+        "overrides": [
+          {"matcher": {"id": "byName", "options": "CRITICAL"}, "properties": [{"id": "color", "value": {"mode": "fixed", "fixedColor": "red"}}]},
+          {"matcher": {"id": "byName", "options": "HIGH"}, "properties": [{"id": "color", "value": {"mode": "fixed", "fixedColor": "orange"}}]},
+          {"matcher": {"id": "byName", "options": "MEDIUM"}, "properties": [{"id": "color", "value": {"mode": "fixed", "fixedColor": "yellow"}}]}
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "title": "Total Records Processed",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 0, "y": 8},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "pipeline_records_processed_total"
+        }
+      ],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "colorMode": "value"},
+      "fieldConfig": {"defaults": {"color": {"mode": "fixed", "fixedColor": "blue"}}}
+    },
+    {
+      "id": 4,
+      "title": "Total Alerts Fired",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 4, "y": 8},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "sum(pipeline_alerts_fired_total)"
+        }
+      ],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "colorMode": "value"},
+      "fieldConfig": {"defaults": {"color": {"mode": "fixed", "fixedColor": "orange"}}}
+    },
+    {
+      "id": 5,
+      "title": "Dropped Records",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 8, "y": 8},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "pipeline_dropped_records_total"
+        }
+      ],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "colorMode": "value"},
+      "fieldConfig": {"defaults": {"color": {"mode": "thresholds"}, "thresholds": {"steps": [{"value": 0, "color": "green"}, {"value": 10, "color": "yellow"}, {"value": 100, "color": "red"}]}}}
+    },
+    {
+      "id": 6,
+      "title": "ES Write Errors",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 8},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "elasticsearch_write_errors_total"
+        }
+      ],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "colorMode": "value"},
+      "fieldConfig": {"defaults": {"color": {"mode": "thresholds"}, "thresholds": {"steps": [{"value": 0, "color": "green"}, {"value": 1, "color": "red"}]}}}
+    },
+    {
+      "id": 7,
+      "title": "Processing Latency p50 / p95 / p99 (ms)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "histogram_quantile(0.50, rate(pipeline_processing_latency_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p50"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "histogram_quantile(0.95, rate(pipeline_processing_latency_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p95"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "histogram_quantile(0.99, rate(pipeline_processing_latency_seconds_bucket[5m])) * 1000",
+          "legendFormat": "p99"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "custom": {"lineWidth": 2, "fillOpacity": 10}
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "Detection Label Distribution",
+      "type": "piechart",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "expr": "sum by (label) (pipeline_detections_total)",
+          "legendFormat": "{{label}}"
+        }
+      ],
+      "options": {"pieType": "donut", "displayLabels": ["name", "percent"]}
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": ["vulnxploit", "pipeline", "security"],
+  "time": {"from": "now-1h", "to": "now"},
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "VulnXploit Core — Pipeline Health",
+  "uid": "nt-pipeline-health",
+  "version": 1
+}

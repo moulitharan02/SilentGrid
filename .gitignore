@@ -1,0 +1,36 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+.pnpm-debug.log*
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Runtime / local
+logs/
+*.log
+*.pid

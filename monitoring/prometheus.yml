@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "nt-pipeline"
+    static_configs:
+      - targets: ["nt-app:8001"]
+    metrics_path: /metrics
+
+  - job_name: "nt-api"
+    static_configs:
+      - targets: ["nt-api:8000"]
+    metrics_path: /metrics

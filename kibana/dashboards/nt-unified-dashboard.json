@@ -1,0 +1,121 @@
+{
+  "version": "8.13.0",
+  "objects": [
+    {
+      "type": "index-pattern",
+      "id": "nt-detections",
+      "attributes": {
+        "title": "nt-detections-*",
+        "timeFieldName": "@timestamp",
+        "fields": "[{\"name\":\"@timestamp\",\"type\":\"date\"},{\"name\":\"src\",\"type\":\"string\"},{\"name\":\"dst\",\"type\":\"string\"},{\"name\":\"risk_score\",\"type\":\"number\"},{\"name\":\"label\",\"type\":\"string\"},{\"name\":\"bytes_sent\",\"type\":\"number\"},{\"name\":\"protocol\",\"type\":\"string\"},{\"name\":\"duration\",\"type\":\"number\"}]"
+      }
+    },
+    {
+      "type": "dashboard",
+      "id": "nt-unified-dashboard",
+      "attributes": {
+        "title": "NT Traffic Filter - Unified Dashboard",
+        "description": "Real-time network traffic anomaly detection and threat visualization",
+        "tags": ["network", "security", "detections"],
+        "timeRestore": true,
+        "timeFrom": "now-1h",
+        "timeTo": "now",
+        "panels": [
+          {
+            "version": "8.13.0",
+            "gridData": {"x": 0, "y": 0, "w": 24, "h": 15},
+            "type": "visualization",
+            "embeddableConfig": {},
+            "panelIndex": "1",
+            "embeddableConfig": {},
+            "visualization": {
+              "id": "risk-score-timeline",
+              "title": "Risk Score Timeline"
+            }
+          },
+          {
+            "version": "8.13.0",
+            "gridData": {"x": 0, "y": 15, "w": 6, "h": 10},
+            "type": "visualization",
+            "embeddableConfig": {},
+            "panelIndex": "2",
+            "visualization": {
+              "id": "critical-alerts-gauge",
+              "title": "Critical Alerts"
+            }
+          },
+          {
+            "version": "8.13.0",
+            "gridData": {"x": 6, "y": 15, "w": 6, "h": 10},
+            "type": "visualization",
+            "embeddableConfig": {},
+            "panelIndex": "3",
+            "visualization": {
+              "id": "threat-type-pie",
+              "title": "Threat Types"
+            }
+          },
+          {
+            "version": "8.13.0",
+            "gridData": {"x": 12, "y": 15, "w": 12, "h": 10},
+            "type": "visualization",
+            "embeddableConfig": {},
+            "panelIndex": "4",
+            "visualization": {
+              "id": "top-ips-table",
+              "title": "Top Source IPs"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "visualization",
+      "id": "risk-score-timeline",
+      "attributes": {
+        "title": "Risk Score Timeline",
+        "visState": {
+          "title": "Risk Score Timeline",
+          "type": "line",
+          "params": {
+            "addTimeMarker": true,
+            "addLegend": true,
+            "legendPosition": "bottom",
+            "isAreaChart": true
+          },
+          "aggs": [
+            {
+              "id": "2",
+              "enabled": true,
+              "type": "date_histogram",
+              "schema": "segment",
+              "params": {
+                "field": "@timestamp",
+                "interval": "auto",
+                "customInterval": "2h",
+                "min_doc_count": 1,
+                "extended_bounds": {}
+              }
+            },
+            {
+              "id": "1",
+              "enabled": true,
+              "type": "avg",
+              "schema": "metric",
+              "params": {
+                "field": "risk_score"
+              }
+            }
+          ]
+        },
+        "uiStateJSON": "{}",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": {
+            "index": "nt-detections",
+            "query": {"match_all": {}}
+          }
+        }
+      }
+    }
+  ]
+}

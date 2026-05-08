@@ -1,0 +1,20 @@
+# CICIDS-2017 dataset placeholder
+# Download the full dataset from:
+# https://www.unb.ca/cic/datasets/ids-2017.html
+#
+# Place the CSV file(s) here and rename/merge to cicids.csv
+# before running:  python training/train.py --data data/cicids.csv
+
+ Flow Duration, Protocol, Source Port, Destination Port, Total Length of Fwd Packets, Total Length of Bwd Packets, Total Fwd Packets, Total Backward Packets, Fwd Header Length, Bwd Header Length, Average Packet Size, Flow Packets/s, Flow Bytes/s, Label
+1.23,6,54321,443,4096,8192,10,15,4500,9000,1024.0,20.3,9990.2,BENIGN
+0.05,6,51234,80,256,512,3,5,300,600,128.0,160.0,15360.0,BENIGN
+0.01,6,44444,22,64,128,2,3,80,160,38.4,500.0,19200.0,BruteForce
+2.5,17,12345,53,100,200,5,10,200,400,20.0,6.0,120.0,BENIGN
+0.02,6,33333,443,0,0,1,1,20,20,0.0,100.0,0.0,DoS
+0.1,6,22222,80,5000,5000,50,50,1000,1000,100.0,1000.0,100000.0,DDoS
+1.23,6,54321,443,4096,8192,10,15,4500,9000,1024.0,20.3,9990.2,BENIGN
+0.05,6,51234,80,256,512,3,5,300,600,128.0,160.0,15360.0,BENIGN
+0.01,6,44444,22,64,128,2,3,80,160,38.4,500.0,19200.0,BruteForce
+2.5,17,12345,53,100,200,5,10,200,400,20.0,6.0,120.0,BENIGN
+0.02,6,33333,443,0,0,1,1,20,20,0.0,100.0,0.0,DoS
+0.1,6,22222,80,5000,5000,50,50,1000,1000,100.0,1000.0,100000.0,DDoS
