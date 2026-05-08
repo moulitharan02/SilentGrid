@@ -13,6 +13,14 @@ warn() { echo -e "${YELLOW}[→]${NC} $*"; }
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+if docker compose version &>/dev/null; then
+  DCOM=(docker compose)
+elif command -v docker-compose &>/dev/null; then
+  DCOM=(docker-compose)
+else
+  DCOM=()
+fi
+
 echo ""
 echo "============================================="
 echo "   nt-traffic-filter · Stopping Services"
@@ -32,12 +40,14 @@ fi
 
 # ── Stop Kafka and Zookeeper ──────────────────────────────────────────────────
 warn "Stopping Kafka and Zookeeper containers..."
-sudo docker-compose -f docker/docker-compose.yml stop kafka zookeeper 2>/dev/null || true
+if [ "${#DCOM[@]}" -gt 0 ]; then
+  sudo "${DCOM[@]}" -f docker/docker-compose.yml stop kafka zookeeper 2>/dev/null || true
+fi
 info "Kafka and Zookeeper stopped."
 
 echo ""
 info "All services stopped cleanly."
 echo ""
-echo "To remove containers entirely:  sudo docker-compose -f docker/docker-compose.yml down"
+echo "To remove containers entirely:  sudo docker compose -f docker/docker-compose.yml down"
 echo "To start again:                 ./start.sh"
 echo ""

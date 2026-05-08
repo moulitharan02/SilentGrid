@@ -4,8 +4,8 @@ Used for testing: reads a CICIDS CSV or JSON file and publishes records
 to the raw-traffic Kafka topic.
 
 Usage:
-    python kafka/producer.py --source data/cicids.csv --rate 100
-    python kafka/producer.py --source data/sample.json
+    python kafka_scripts/producer.py --source data/cicids.csv --rate 100
+    python kafka_scripts/producer.py --source data/sample.json
 """
 
 from __future__ import annotations

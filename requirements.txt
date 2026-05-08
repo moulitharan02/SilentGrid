@@ -33,6 +33,9 @@ python-dateutil
 rich==13.7.1            # pretty console output
 networkx                # graph correlation
 
+# Development
+pytest>=8.0
+
 # Phase 3 — Storage & Monitoring
 elasticsearch>=8.13,<9          # Elasticsearch client
 prometheus-client               # Prometheus metrics exposition

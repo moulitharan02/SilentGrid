@@ -123,9 +123,11 @@ class FeatureEngine:
         dst_port = raw["dst_port"]
         now = time.time()
         
-        # Cleanup old state (older than 60s)
-        self._ip_history[src_ip] = [ts for ts in self._ip_history[src_ip] if now - ts < 60]
-        self._port_history[src_ip] = [p for p, ts in zip(self._port_history[src_ip], self._ip_history[src_ip]) if now - ts < 60]
+        # Cleanup old state (older than 60s) — keep port/time pairs aligned
+        _pairs = list(zip(self._port_history[src_ip], self._ip_history[src_ip]))
+        _pairs = [(p, ts) for p, ts in _pairs if now - ts < 60]
+        self._port_history[src_ip] = [p for p, _ in _pairs]
+        self._ip_history[src_ip] = [ts for _, ts in _pairs]
         
         # 1. Time-windowed features (connections in last 60s)
         self._ip_history[src_ip].append(now)

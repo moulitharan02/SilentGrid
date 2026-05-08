@@ -69,7 +69,7 @@ nt-traffic-filter/
 ├── models/                ← Trained .pkl model files (auto-generated)
 ├── logs/                  ← Runtime + alert logs
 ├── zeek/                  ← Zeek conn.log → JSON/Kafka converter
-├── kafka/                 ← Kafka topic helper scripts
+├── kafka_scripts/         ← Kafka topic helper scripts (not named `kafka` — avoids shadowing kafka-python)
 ├── docker/                ← docker-compose.yml (Zookeeper + Kafka)
 ├── src/
 │   ├── config/            ← Env-driven central config
@@ -116,7 +116,7 @@ python training/train.py --data data/cicids.csv
 
 ### Send test traffic through the pipeline
 ```bash
-python kafka/producer.py --source data/cicids.csv --rate 100
+python kafka_scripts/producer.py --source data/cicids.csv --rate 100
 ```
 
 ### Stream from a real Zeek log

@@ -18,6 +18,15 @@ head()  { echo -e "\n${CYAN}$*${NC}"; }
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+# Docker Compose v2 (`docker compose`) vs legacy (`docker-compose`)
+if docker compose version &>/dev/null; then
+  DCOM=(docker compose)
+elif command -v docker-compose &>/dev/null; then
+  DCOM=(docker-compose)
+else
+  error "Neither 'docker compose' nor 'docker-compose' is available. Install Docker Compose."
+fi
+
 START_API=false
 for arg in "$@"; do
   [[ "$arg" == "--api" || "$arg" == "--all" ]] && START_API=true
@@ -47,7 +56,7 @@ info "Docker daemon is running."
 
 # ── 3. Start Zookeeper ───────────────────────────────────────────────────────
 head "Step 3: Starting Zookeeper..."
-docker-compose -f docker/docker-compose.yml up zookeeper -d
+"${DCOM[@]}" -f docker/docker-compose.yml up zookeeper -d
 
 warn "Waiting for Zookeeper to be healthy..."
 for i in {1..30}; do
@@ -64,7 +73,7 @@ done
 
 # ── 4. Start Kafka ───────────────────────────────────────────────────────────
 head "Step 4: Starting Kafka..."
-docker-compose -f docker/docker-compose.yml up kafka -d
+"${DCOM[@]}" -f docker/docker-compose.yml up kafka -d
 
 warn "Waiting for Kafka to be healthy (this can take up to 2 minutes)..."
 for i in {1..60}; do

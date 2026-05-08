@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# kafka/topics.sh
+# kafka_scripts/topics.sh
 # Helper script to create and describe the Kafka topics used by nt-traffic-filter.
 # Usage:
-#   ./kafka/topics.sh create   — create all required topics
-#   ./kafka/topics.sh list     — list existing topics
-#   ./kafka/topics.sh describe — describe topic configs
+#   ./kafka_scripts/topics.sh create   — create all required topics
+#   ./kafka_scripts/topics.sh list     — list existing topics
+#   ./kafka_scripts/topics.sh describe — describe topic configs
 
 set -euo pipefail
 

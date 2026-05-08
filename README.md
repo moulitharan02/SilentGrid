@@ -210,7 +210,7 @@ curl http://localhost:8000/api/dashboard/summary
 
 ```bash
 # Replay a CSV dataset into Kafka at 100 records/sec
-python kafka/producer.py --source data/cicids.csv --rate 100
+python kafka_scripts/producer.py --source data/cicids.csv --rate 100
 ```
 
 ## Running Tests
